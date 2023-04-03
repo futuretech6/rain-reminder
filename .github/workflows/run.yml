@@ -6,7 +6,7 @@ on:
     - cron: '00 10 * * *'  # every 18:00, utc+8
 
 jobs:
-  uploads:
+  run:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -14,4 +14,7 @@ jobs:
       with:
         python-version: '3.8'
     - run: pip install requests toml
-    - run: python main.py
+    - name: run script
+      env:
+        APIKEY: ${{ secrets.APIKEY }}
+      run: python main.py
