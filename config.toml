@@ -1,0 +1,10 @@
+# longitude, latitude
+# do not add an accurate location
+
+[location.shanghai]
+longitude=121.4668715
+latitude=31.2242157
+
+[location.yq]
+longitude=120.1236953
+latitude=30.2685245

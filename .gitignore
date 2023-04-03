@@ -1,0 +1,8 @@
+# vscode config
+.vscode
+
+# project output
+*.ics
+
+# chore
+.DS_Store

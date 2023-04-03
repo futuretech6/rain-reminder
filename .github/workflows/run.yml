@@ -1,0 +1,17 @@
+name: run
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '00 10 * * *'  # every 18:00, utc+8
+
+jobs:
+  uploads:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+    - run: pip install requests toml
+    - run: python main.py
