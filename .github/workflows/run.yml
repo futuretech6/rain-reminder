@@ -17,4 +17,6 @@ jobs:
     - name: run script
       env:
         APIKEY: ${{ secrets.APIKEY }}
-      run: python main.py
+      run: |
+        echo tomorrow is `date --date='TZ="Asia/Shanghai" tomorrow' "+%a, %b %d %Y"`
+        python main.py
