@@ -1,5 +1,6 @@
 import json
 import os
+import time
 from datetime import datetime, timedelta
 from typing import Dict, List
 
@@ -17,21 +18,21 @@ for location in locations:
     latitude = locations[location]["latitude"]
     local_time = datetime.utcnow() + timedelta(hours=longitude // 15)
     tomorrow = local_time.date() + timedelta(days=1)
-    response = requests.get(
-        url="http://api.openweathermap.org/data/2.5/forecast?lat={}&lon={}&appid={}".format(
-            latitude,
-            longitude,
-            apikey,
-        )
-    )
-    info = json.loads(response.text)
-    if info["cod"] != "200":
-        print(
-            "Request error, error code: {}, message: {}".format(
-                info["cod"], info["message"]
+    while True:
+        response = requests.get(
+            url="http://api.openweathermap.org/data/2.5/forecast?lat={}&lon={}&appid={}".format(
+                latitude,
+                longitude,
+                apikey,
             )
         )
-        exit(255)
+        if (
+            response.status_code == 200
+            and (info := json.loads(response.text))["cod"] == "200"
+        ):
+            break
+        else:
+            time.sleep(10)
 
     for forecast in info["list"]:
         forecast_time = datetime.fromtimestamp(forecast["dt"])
