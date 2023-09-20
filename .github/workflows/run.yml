@@ -3,20 +3,23 @@ name: run
 on:
   workflow_dispatch:
   schedule:
-    - cron: '30 12 * * *'  # every 20:30, utc+8
+    - cron: "30 12 * * *" # every 20:30, utc+8
 
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.8'
-    - run: pip install requests toml
-    - name: run script
-      env:
-        APIKEY: ${{ secrets.APIKEY }}
-      run: |
-        echo tomorrow is `date --date='TZ="Asia/Shanghai" tomorrow' "+%a, %b %d %Y"`
-        python main.py
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - run: pip install requests toml
+      - name: run script
+        env:
+          APIKEY: ${{ secrets.APIKEY }}
+        run: |
+          echo tomorrow is `date --date='TZ="Asia/Shanghai" tomorrow' "+%a, %b %d %Y"`
+          python main.py
+      - uses: gautamkrishnar/keepalive-workflow@v1
+        with:
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
