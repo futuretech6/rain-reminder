@@ -1,10 +1,10 @@
 # longitude, latitude
 # do not add an accurate location
 
-[location.yq]
+[location.玉泉]
 longitude=120.1236953
 latitude=30.2685245
 
-[location.bd]
-longitude=121.5111804
-latitude=31.3131368
+# [location.bd]
+# longitude=121.5111804
+# latitude=31.3131368
