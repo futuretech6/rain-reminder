@@ -1,9 +1,9 @@
 # longitude, latitude
 # do not add an accurate location
 
-[location.zju-yq]
-longitude=120.1236953
-latitude=30.2685245
+# [location.zju-yq]
+# longitude=120.1236953
+# latitude=30.2685245
 
 # [location.bd]
 # longitude=121.5111804
@@ -12,3 +12,7 @@ latitude=30.2685245
 [location.lw]
 longitude=117.6839684
 latitude=36.2209998
+
+[location."Jing'an"]
+longitude=121.480908
+latitude=31.2453994
