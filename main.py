@@ -1,17 +1,21 @@
 import json
 import os
 import time
+from collections import defaultdict
 from datetime import datetime, timedelta
-from typing import Dict, List
+from typing import DefaultDict, List
 
 import requests
 import toml
 
 config = toml.load("config.toml")
 locations = config["location"]
-apikey = os.environ["APIKEY"]
+api_key = os.environ["APIKEY"]
 
-location_results: Dict[str, List[datetime]] = {}
+# {location, {condition, [time]}}
+location_results: DefaultDict[
+    str, DefaultDict[str, List[datetime]]
+] = defaultdict(lambda: defaultdict(list))
 
 for location in locations:
     longitude = locations[location]["longitude"]
@@ -23,7 +27,7 @@ for location in locations:
             url="http://api.openweathermap.org/data/2.5/forecast?lat={}&lon={}&appid={}".format(
                 latitude,
                 longitude,
-                apikey,
+                api_key,
             )
         )
         if (
@@ -38,18 +42,26 @@ for location in locations:
         forecast_time = datetime.fromtimestamp(forecast["dt"])
         if forecast_time.date() != tomorrow:
             continue
-        if forecast["weather"][0]["main"] == "Rain":
-            if location not in location_results:
-                location_results[location] = []
-            location_results[location].append(forecast_time)
+        if (condition := forecast["weather"][0]["main"]) in {
+            "Thunderstorm",
+            "Drizzle",
+            "Rain",
+            "Snow",
+        }:  # https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
+            location_results[location][condition].append(forecast_time)
 
 if len(location_results) != 0:
-    for location in location_results:
-        print("{} will be rainy at ".format(location), end="")
-        time_str: str = ""
-        for dt in location_results[location]:
-            time_str += "{}:{:02}, ".format(dt.hour, dt.minute)
-        print(time_str.rstrip(", "))
+    for location, conditions in location_results.items():
+        print(f"{location} will be ", end="")
+        for condition, dt_list in conditions.items():
+            print(f"{condition.lower()} at ", end="")
+            print(
+                ", ".join(
+                    ["{}:{:02}".format(dt.hour, dt.minute) for dt in dt_list]
+                ),
+                end="; ",
+            )
+        print()
     exit(2)  # exit to make actions alarm
 else:
     print("sunny everywhere, happy!")
