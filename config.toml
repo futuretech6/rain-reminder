@@ -1,17 +1,17 @@
 # Do not include an exact location due to privacy concerns.
 
-# [location."Yuquan"]
-# longitude=120.1236953
-# latitude=30.2685245
+[location."Yuquan"]
+longitude=120.1236953
+latitude=30.2685245
 
 # [location."Jing'an"]
 # longitude=121.480908
 # latitude=31.2453994
 
-# [location."Lujiazui"]
-# longitude=121.5065465
-# latitude=31.2344363
+[location."Lujiazui"]
+longitude=121.5065465
+latitude=31.2344363
 
-[location."Jinshan"]
-latitude=24.5000006
-longitude=118.1597321
+# [location."Jinshan"]
+# latitude=24.5000006
+# longitude=118.1597321
