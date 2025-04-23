@@ -20,6 +20,13 @@ jobs:
         run: |
           echo tomorrow is `date --date='TZ="Asia/Shanghai" tomorrow' "+%a, %b %d %Y"`
           python main.py
-      - uses: gautamkrishnar/keepalive-workflow@v2
-        with:
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
+      # - uses: gautamkrishnar/keepalive-workflow@v2
+      #   with:
+      #     gh_token: ${{ secrets.GITHUB_TOKEN }}
+  workflow-keepalive:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - uses: liskin/gh-workflow-keepalive@v1
